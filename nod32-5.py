@@ -1,0 +1,27 @@
+#! /usr/bin/env python
+# coding=utf-8
+import urllib2
+import os
+response = urllib2.urlopen('http://www.nod32jihuoma.cn/')
+html = response.read()
+with open('test','wb') as f : f.write(html)
+f = open('test','rb')
+for line in f:
+    #print line.decode('utf-8').rstrip()
+    if line.rstrip().startswith('<p>用户名'):
+        print line.rstrip()
+        user = line.rstrip()[15:31]
+        passwd = line.rstrip()[48:58]
+        print 'user:%s\npassword:%s' %(user,passwd)
+        break
+print 'ok'
+dlurl = 'wget http://download.eset.com/download/engine/eav/offline_update_eav.zip \
+--http-user=%s --http-passwd=%s' %(user,passwd)
+#os.system(dlurl)
+#os.system('wget http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP')
+zip = urllib2.urlopen('http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP')
+with open('peace_essay.ZIP','wb') as dat:
+    dat.write(zip.read())
+print 'Downloading finished'
+os.system('mkdir tmp && cd tmp && unzip ~/peace_essay.ZIP')
+print 'Extracting finished'
